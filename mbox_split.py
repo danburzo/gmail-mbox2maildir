@@ -1,11 +1,12 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Adapted from:
 # http://wboptimum.com/splitting-gmail-mbox-by-label/
 
-import sys
 import getopt
 import mailbox
+import os
+import sys
 
 def main(argv):
 	in_mbox = "inbox.mbox"
@@ -40,7 +41,7 @@ def main(argv):
 			saved = False
 			for label in gmail_labels.split(','):
 				if label != "important" and label != "unread" and label != "starred" and label != "newsletters":
-					box_name = prefix+label.title()+".mbox"
+					box_name = prefix + label.title().replace(os.pathsep, '.') + ".mbox"
 					if box_name not in boxes:
 						boxes[box_name] = mailbox.mbox(box_name, None, True)
 					boxes[box_name].add(message)
